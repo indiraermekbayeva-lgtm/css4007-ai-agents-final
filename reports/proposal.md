@@ -101,7 +101,7 @@ Tool arguments will be validated before execution. The agent will not execute ar
 
 - **Programming language:** Python.
 - **Agent framework:** LangGraph.
-- **LLM:** OpenAI GPT-4o-mini (proposed).
+- **LLM:** OpenAI GPT-6 Luna (proposed, subject to API availability).
 - **Integration:** OpenAI API using environment variables.
 - **Data storage:** Local JSON files.
 
