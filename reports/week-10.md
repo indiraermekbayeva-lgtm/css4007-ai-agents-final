@@ -16,10 +16,10 @@
 
 ## Important Commits
 
-No project-specific commits have been created yet.
+- Commit hash: 082cf2b
+- Description: Add AI Math Tutor project proposal and initial report
+- Link: https://github.com/ТВОЙ-ЛОГИН/css4007-ai-agents-final/commit/082cf2b
 
-The proposal was prepared on November 9, 2026.
-The first project commit will be created after the report is saved.
 
 ## Current Functionality
 
