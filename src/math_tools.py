@@ -58,12 +58,13 @@ def check_answer(student_answer, correct_answer):
 
 # Создаём задание на сложение дробей
 def generate_fraction_problem():
-    # Выбираем числители и знаменатели
-    numerator1 = random.randint(1, 5)
+    # Выбираем знаменатели
     denominator1 = random.randint(2, 8)
-
-    numerator2 = random.randint(1, 5)
     denominator2 = random.randint(2, 8)
+
+    # Числитель всегда меньше знаменателя
+    numerator1 = random.randint(1, denominator1 - 1)
+    numerator2 = random.randint(1, denominator2 - 1)
 
     # Создаём дроби
     fraction1 = Fraction(numerator1, denominator1)

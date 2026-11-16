@@ -64,3 +64,16 @@ def test_generate_fraction_problem():
 def test_invalid_difficulty():
     with pytest.raises(ValueError, match="Invalid difficulty level."):
         generate_problem("impossible")
+
+# Проверяем, что генератор создаёт две правильные дроби
+def test_fraction_problem_uses_proper_fractions():
+    # Проверяем несколько случайных заданий
+    for _ in range(100):
+        problem = generate_fraction_problem()
+
+        expression = problem["question"].replace(" = ?", "")
+        left, right = expression.split(" + ")
+
+        # Обе дроби должны быть больше нуля и меньше единицы
+        assert 0 < Fraction(left) < 1
+        assert 0 < Fraction(right) < 1
