@@ -1,4 +1,6 @@
-from src.math_tools import check_answer, generate_problem
+import pytest
+from fractions import Fraction
+from src.math_tools import check_answer, generate_problem, generate_fraction_problem
 
 # Проверяем правильный ответ
 def test_correct_answer():
@@ -41,3 +43,24 @@ def test_generate_hard_problem():
 
     assert problem["difficulty"] == "hard"
     assert "+" in problem["question"]
+
+# Проверяем генерацию задания с дробями
+def test_generate_fraction_problem():
+    problem = generate_fraction_problem()
+
+    assert problem["topic"] == "fractions"
+    assert "+" in problem["question"]
+
+    # Извлекаем дроби из задания
+    expression = problem["question"].replace(" = ?", "")
+    left, right = expression.split(" + ")
+
+    # Проверяем, что вычисленный ответ правильный
+    expected_answer = Fraction(left) + Fraction(right)
+
+    assert Fraction(problem["correct_answer"]) == expected_answer
+
+# Проверяем защиту от неизвестного уровня сложности
+def test_invalid_difficulty():
+    with pytest.raises(ValueError, match="Invalid difficulty level."):
+        generate_problem("impossible")
