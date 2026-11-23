@@ -1,27 +1,27 @@
 from fractions import Fraction
 
 import random
+import re
 
 
-# Создаём математическое задание для ученика
+_EXPONENT = re.compile(r"[eE]([+-]?[\d_]+)\s*$")
+
+
+# Создаём математическую задачу
 def generate_problem(difficulty="easy"):
     if difficulty == "easy":
-        # Простое сложение целых чисел
         a = random.randint(1, 10)
         b = random.randint(1, 10)
 
     elif difficulty == "medium":
-        # Сложение более крупных чисел
         a = random.randint(10, 50)
         b = random.randint(10, 50)
 
     elif difficulty == "hard":
-        # Сложение чисел до 100
         a = random.randint(50, 100)
         b = random.randint(50, 100)
 
     else:
-        # Отклоняем неизвестный уровень сложности
         raise ValueError("Invalid difficulty level.")
 
     return {
@@ -30,9 +30,15 @@ def generate_problem(difficulty="easy"):
         "difficulty": difficulty
     }
 
-# Проверяем математический ответ ученика
+
+# Проверяем ответ ученика
 def check_answer(student_answer, correct_answer):
     try:
+        # Ограничиваем показатель степени перед преобразованием в Fraction
+        exponent = _EXPONENT.search(student_answer) if isinstance(student_answer, str) else None
+        if exponent and abs(int(exponent[1])) > 1000:
+            return {"is_correct": False, "message": "Invalid answer format."}
+
         # Преобразуем ответы в числа или дроби
         student_value = Fraction(student_answer)
         correct_value = Fraction(correct_answer)
@@ -43,11 +49,10 @@ def check_answer(student_answer, correct_answer):
                 "is_correct": True,
                 "message": "Correct answer!"
             }
-        else:
-            return {
-                "is_correct": False,
-                "message": "Incorrect answer. Try again!"
-            }
+        return {
+            "is_correct": False,
+            "message": "Incorrect answer. Try again!"
+        }
 
     except (ValueError, ZeroDivisionError):
         # Обрабатываем некорректный ввод
@@ -56,7 +61,8 @@ def check_answer(student_answer, correct_answer):
             "message": "Invalid answer format."
         }
 
-# Создаём задание на сложение дробей
+
+# Создаём задачу на сложение дробей
 def generate_fraction_problem():
     # Выбираем знаменатели
     denominator1 = random.randint(2, 8)
@@ -78,6 +84,7 @@ def generate_fraction_problem():
         "correct_answer": str(correct_answer),
         "topic": "fractions"
     }
+
 
 # Проверяем инструмент на разных ответах ученика
 if __name__ == "__main__":
